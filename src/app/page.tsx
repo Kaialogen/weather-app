@@ -117,6 +117,20 @@ export default function Home() {
                 </span>
               </p>
             </div>
+            <div className="flex gap-10 sm:gap-16 overflow-x-auto w-full justify-between pr-3">
+              {data?.list.map((data, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col justify-between gap-2 items-center text-xs font-semibold"
+                >
+                  <p className="whitespace-nowrap">
+                    {format(parseISO(data.dt_txt), "h:mm a")}
+                  </p>
+
+                  <p>{convertKelvinToCelsius(data?.main.temp ?? 0)}°C</p>
+                </div>
+              ))}
+            </div>
           </Container>
         </div>
       </section>
