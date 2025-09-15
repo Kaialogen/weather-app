@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 interface WeatherData {
   cod: string;
@@ -57,6 +61,20 @@ interface WeatherDetail {
 }
 
 export default function Home() {
+  const { isLoading, error, data } = useQuery<WeatherData>({
+    queryKey: ["weather", "london"],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `https://api.openweathermap.org/data/2.5/forecast?q=london&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=5`
+      );
+      return data;
+    },
+  });
+
+  console.log(data);
+
+  if (isLoading) return "Loading...";
+
   return (
     <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
       <Navbar />
