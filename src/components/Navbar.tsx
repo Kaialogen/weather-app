@@ -4,16 +4,19 @@ import { useState } from "react";
 import { MdWbSunny, MdMyLocation, MdOutlineLocationOn } from "react-icons/md";
 import Searchbar from "./Searchbar";
 import axios from "axios";
+import { useCityStore } from "@/app/store";
 
-type Props = {};
+type Props = { location?: string };
 
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
 
-export default function Navbar({}: Props) {
+export default function Navbar({ location }: Props) {
   const [city, setCity] = useState("");
   const [error, setError] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const { setPlace, setLoadingCity } = useCityStore();
 
   const handleInputChange = async (value: string) => {
     setCity(value);
@@ -44,12 +47,18 @@ export default function Navbar({}: Props) {
   };
 
   const handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    setLoadingCity(true);
     e.preventDefault();
     if (suggestions.length === 0) {
       setError("Location not found");
+      setLoadingCity(false);
     } else {
       setError("");
-      setShowSuggestions(false);
+      setTimeout(() => {
+        setLoadingCity(false);
+        setPlace(city);
+        setShowSuggestions(false);
+      }, 500);
     }
   };
 
@@ -63,7 +72,7 @@ export default function Navbar({}: Props) {
         <section className="flex gap-2 items-center">
           <MdMyLocation className="text-2xl text-gray-400 hover:opacity-80 cursor-pointer" />
           <MdOutlineLocationOn className="text-3xl" />
-          <p className="text-slate-900/80 text-sm"> London </p>
+          <p className="text-slate-900/80 text-sm"> {location} </p>
           <div className="relative">
             <Searchbar
               value={city}
