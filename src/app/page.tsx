@@ -4,11 +4,13 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { format, parseISO } from "date-fns";
+import { format, fromUnixTime, parseISO } from "date-fns";
 import Container from "@/components/Container";
 import { convertKelvinToCelsius } from "@/utils/convertKelvinToCelsius";
 import WeatherIcon from "@/components/WeatherIcon";
 import { getDayOrNightIcon } from "@/utils/getDayOrNightIcon";
+import WeatherDetails from "@/components/WeatherDetails";
+import { convertWindSpeed } from "@/utils/convertWindSpeed";
 
 interface WeatherData {
   cod: string;
@@ -142,8 +144,40 @@ export default function Home() {
               </div>
             </Container>
           </div>
+          <div className="flex gap-4">
+            {/* left container */}
+            <Container className="w-fit justify-center flex-col px-4 items-center">
+              <p className="capitalize text-center">
+                {firstData?.weather[0].description}
+              </p>
+              <WeatherIcon
+                iconName={getDayOrNightIcon(
+                  firstData?.weather[0].icon ?? "",
+                  firstData?.dt_txt ?? ""
+                )}
+              />
+            </Container>
+            {/* right container */}
+            <Container className="bg-yellow-300/80 px-6 gap-4 justify-between overflow-x-auto">
+              <WeatherDetails
+                humidity={`${firstData?.main.humidity}%`}
+                windSpeed={convertWindSpeed(firstData?.wind.speed ?? 0)}
+                airPressure={`${firstData?.main.pressure} hPa`}
+                sunrise={`${format(
+                  fromUnixTime(data?.city.sunrise ?? 0),
+                  "H:mm"
+                )} am`}
+                sunset={`${format(
+                  fromUnixTime(data?.city.sunset ?? 0),
+                  "H:mm"
+                )} pm`}
+              />
+            </Container>
+          </div>
         </section>
-        <section></section>
+        <section className="flex w-full flex-col gap-4">
+          <p className="text-2xl">Next 7 days</p>
+        </section>
       </main>
     </div>
   );
