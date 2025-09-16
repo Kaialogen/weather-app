@@ -23,8 +23,6 @@ export default function ForecastWeatherDetail(
     day = "Error",
     temp,
     feels_like,
-    temp_min,
-    temp_max,
     description,
   } = props;
   return (

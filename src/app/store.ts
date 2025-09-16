@@ -1,6 +1,13 @@
 import { create } from "zustand";
 
-export const useCityStore = create((set) => ({
+interface CityState {
+  place: string;
+  loadingCity: boolean;
+  setPlace: (newPlace: string) => void;
+  setLoadingCity: (isLoading: boolean) => void;
+}
+
+export const useCityStore = create<CityState>((set) => ({
   place: "London",
   loadingCity: false,
 

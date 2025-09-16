@@ -13,72 +13,26 @@ import { convertWindSpeed } from "@/utils/convertWindSpeed";
 import ForecastWeatherDetail from "@/components/ForecastWeatherDetail";
 import { useCityStore } from "./store";
 import { useEffect } from "react";
-
-interface WeatherData {
-  cod: string;
-  message: number;
-  cnt: number;
-  list: WeatherDetail[];
-  city: {
-    id: number;
-    name: string;
-    coord: {
-      lat: number;
-      lon: number;
-    };
-    country: string;
-    population: number;
-    timezone: number;
-    sunrise: number;
-    sunset: number;
-  };
-}
-
-interface WeatherDetail {
-  dt: number;
-  main: {
-    temp: number;
-    feels_like: number;
-    temp_min: number;
-    temp_max: number;
-    pressure: number;
-    sea_level: number;
-    grnd_level: number;
-    humidity: number;
-    temp_kf: number;
-  };
-  weather: {
-    id: number;
-    main: string;
-    description: string;
-    icon: string;
-  }[];
-  clouds: {
-    all: number;
-  };
-  wind: {
-    speed: number;
-    deg: number;
-    gust: number;
-  };
-  visibility: number;
-  pop: number;
-  sys: {
-    pod: string;
-  };
-  dt_txt: string;
-}
+import WeatherSkeleton from "@/components/WeatherSkeleton";
+import { WeatherData } from "@/types/weather";
 
 export default function Home() {
-  const { place, setPlace, loadingCity } = useCityStore();
+  const { place, loadingCity } = useCityStore();
 
   const { isLoading, error, data, refetch } = useQuery<WeatherData>({
-    queryKey: ["weather", "london"],
+    queryKey: ["weather", place],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=14`
-      );
-      return data;
+      try {
+        const { data } = await axios.get(
+          `https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=14`
+        );
+        return data;
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 404) {
+          throw new Error("Location not found");
+        }
+        throw new Error("Failed to fetch weather data");
+      }
     },
   });
 
@@ -218,14 +172,14 @@ export default function Home() {
                   key={index}
                   description={d?.weather[0].description ?? ""}
                   weatherIcon={d?.weather[0].icon ?? "01d"}
-                  date={d ? format(parseISO(d?.dt_txt ?? ""), "dd.MM") : ""}
+                  date={d ? format(parseISO(d?.dt_txt), "dd.MM") : ""}
                   day={d ? format(parseISO(d.dt_txt), "EEEE") : ""}
                   feels_like={d?.main.feels_like ?? 0}
                   temp={d?.main.temp ?? 0}
                   temp_max={d?.main.temp_max ?? 0}
                   temp_min={d?.main.temp_min ?? 0}
-                  airPressure={`${d?.main.pressure} hPa `}
-                  humidity={`${d?.main.humidity}% `}
+                  airPressure={`${d?.main.pressure} hPa`}
+                  humidity={`${d?.main.humidity}%`}
                   sunrise={format(
                     fromUnixTime(data?.city.sunrise ?? 1702517657),
                     "H:mm"
@@ -234,7 +188,7 @@ export default function Home() {
                     fromUnixTime(data?.city.sunset ?? 1702517657),
                     "H:mm"
                   )}
-                  windSpeed={`${convertWindSpeed(d?.wind.speed ?? 1.64)} `}
+                  windSpeed={convertWindSpeed(d?.wind.speed ?? 1.64)}
                 />
               ))}
             </section>
@@ -242,45 +196,5 @@ export default function Home() {
         )}
       </main>
     </div>
-  );
-}
-
-function WeatherSkeleton() {
-  return (
-    <section className="space-y-8">
-      {/* Today's data skeleton */}
-      <div className="space-y-2 animate-pulse">
-        {/* Date skeleton */}
-        <div className="flex gap-1 text-2xl items-end">
-          <div className="h-6 w-24 bg-gray-300 rounded"></div>
-          <div className="h-6 w-24 bg-gray-300 rounded"></div>
-        </div>
-
-        {/* Time wise temperature skeleton */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((index) => (
-            <div key={index} className="flex flex-col items-center space-y-2">
-              <div className="h-6 w-16 bg-gray-300 rounded"></div>
-              <div className="h-6 w-6 bg-gray-300 rounded-full"></div>
-              <div className="h-6 w-16 bg-gray-300 rounded"></div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 7 days forecast skeleton */}
-      <div className="flex flex-col gap-4 animate-pulse">
-        <p className="text-2xl h-8 w-36 bg-gray-300 rounded"></p>
-
-        {[1, 2, 3, 4, 5, 6, 7].map((index) => (
-          <div key={index} className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="h-8 w-28 bg-gray-300 rounded"></div>
-            <div className="h-10 w-10 bg-gray-300 rounded-full"></div>
-            <div className="h-8 w-28 bg-gray-300 rounded"></div>
-            <div className="h-8 w-28 bg-gray-300 rounded"></div>
-          </div>
-        ))}
-      </div>
-    </section>
   );
 }
