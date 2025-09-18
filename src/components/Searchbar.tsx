@@ -2,10 +2,10 @@ import { cn } from "@/utils/cn";
 import { IoSearch } from "react-icons/io5";
 
 type Props = {
-  className?: string;
-  value: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
-  onSubmit: React.FormEventHandler<HTMLFormElement> | undefined;
+  readonly className?: string;
+  readonly value: string;
+  readonly onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
+  readonly onSubmit: React.FormEventHandler<HTMLFormElement> | undefined;
 };
 
 export default function Searchbar(props: Props) {

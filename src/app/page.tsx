@@ -24,7 +24,7 @@ export default function Home() {
     queryFn: async () => {
       try {
         const { data } = await axios.get(
-          `https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=14`
+          `https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=17`
         );
         return data;
       } catch (error) {
@@ -123,7 +123,7 @@ export default function Home() {
                           {format(parseISO(data.dt_txt), "h:mm a")}
                         </p>
                         <WeatherIcon
-                          iconName={getDayOrNightIcon(
+                          iconname={getDayOrNightIcon(
                             data.weather[0].icon,
                             data.dt_txt
                           )}
@@ -141,7 +141,7 @@ export default function Home() {
                     {firstData?.weather[0].description}
                   </p>
                   <WeatherIcon
-                    iconName={getDayOrNightIcon(
+                    iconname={getDayOrNightIcon(
                       firstData?.weather[0].icon ?? "",
                       firstData?.dt_txt ?? ""
                     )}

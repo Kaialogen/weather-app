@@ -6,7 +6,7 @@ import Searchbar from "./Searchbar";
 import axios from "axios";
 import { useCityStore } from "@/app/store";
 
-type Props = { location?: string };
+type Props = { readonly location?: string };
 
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
 
@@ -86,10 +86,10 @@ export default function Navbar({ location }: Props) {
   return (
     <nav className="shadow-sm sticky top-0 left-0 z-50 bg-white">
       <div className="h-[80px] w-full flex justify-between items-center max-w-7xl px-3 mx-auto">
-        <p className="flex items-center justify-center gap-2">
+        <span className="flex items-center justify-center gap-2">
           <h2 className="text-gray-500 text-3xl">Weather</h2>
           <MdWbSunny className="text-3xl mt-1 text-yellow-300" />
-        </p>
+        </span>
         <section className="flex gap-2 items-center">
           <MdMyLocation
             title="Your Current Location"
@@ -125,10 +125,10 @@ function SuggestionBox({
   handleSuggestionClick,
   error,
 }: {
-  showSuggestions: boolean;
-  suggestions: string[];
-  handleSuggestionClick: (item: string) => void;
-  error: string;
+  readonly showSuggestions: boolean;
+  readonly suggestions: string[];
+  readonly handleSuggestionClick: (item: string) => void;
+  readonly error: string;
 }) {
   return (
     <>

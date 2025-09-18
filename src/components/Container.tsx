@@ -1,6 +1,8 @@
 import { cn } from "@/utils/cn";
 
-export default function Container(props: React.HTMLProps<HTMLDivElement>) {
+export default function Container(
+  props: Readonly<React.HTMLProps<HTMLDivElement>>
+) {
   return (
     <div
       {...props}

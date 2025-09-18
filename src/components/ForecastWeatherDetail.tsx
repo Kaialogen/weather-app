@@ -15,7 +15,7 @@ export interface ForecastWeatherDetailProps extends WeatherDetailProps {
 }
 
 export default function ForecastWeatherDetail(
-  props: ForecastWeatherDetailProps
+  props: Readonly<ForecastWeatherDetailProps>
 ) {
   const {
     weatherIcon = "02d",
@@ -29,7 +29,7 @@ export default function ForecastWeatherDetail(
     <Container className="gap-4">
       <section className="flex gap-4 items-center px-4">
         <div className="flex flex-col gap-1 items-center">
-          <WeatherIcon iconName={weatherIcon} />
+          <WeatherIcon iconname={weatherIcon} />
           <p>{date}</p>
           <p className="text-sm">{day}</p>
         </div>

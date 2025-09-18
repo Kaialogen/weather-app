@@ -4,11 +4,11 @@ import { MdAir } from "react-icons/md";
 import { ImMeter } from "react-icons/im";
 
 export interface WeatherDetailProps {
-  humidity: string;
-  windSpeed: string;
-  airPressure: string;
-  sunrise: string;
-  sunset: string;
+  readonly humidity: string;
+  readonly windSpeed: string;
+  readonly airPressure: string;
+  readonly sunrise: string;
+  readonly sunset: string;
 }
 
 export default function WeatherDetails(props: WeatherDetailProps) {
@@ -57,7 +57,7 @@ export interface SingleWeatherDetailProps {
   value: string;
 }
 
-function SingleWeatherDetail(props: SingleWeatherDetailProps) {
+function SingleWeatherDetail(props: Readonly<SingleWeatherDetailProps>) {
   return (
     <div className="flex flex-col justify-between gap-2 items-center text-xs font-semibold text-black/80">
       <p className="whitespace-nowrap">{props.information}</p>
