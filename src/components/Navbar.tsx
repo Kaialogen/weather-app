@@ -1,16 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { MdWbSunny, MdMyLocation, MdOutlineLocationOn } from "react-icons/md";
+import { MdWbSunny, MdMyLocation } from "react-icons/md";
 import Searchbar from "./Searchbar";
 import axios from "axios";
 import { useCityStore } from "@/app/store";
 
-type Props = { readonly location?: string };
-
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
 
-export default function Navbar({ location }: Props) {
+export default function Navbar() {
   const [city, setCity] = useState("");
   const [error, setError] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -96,8 +94,6 @@ export default function Navbar({ location }: Props) {
             onClick={handleCurrentLocation}
             className="text-2xl text-gray-400 hover:opacity-80 cursor-pointer"
           />
-          <MdOutlineLocationOn className="text-3xl" />
-          <p className="text-slate-900/80 text-sm"> {location} </p>
           <div className="relative">
             <Searchbar
               value={city}
