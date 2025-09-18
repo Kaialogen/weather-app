@@ -4,7 +4,7 @@ type Props = { readonly location?: string; readonly data?: any };
 
 export default function MainDisplay({ location, data }: Props) {
   return (
-    <section className="grid grid-cols-1 max-w-full text-slate-900">
+    <section className="grid grid-cols-1 max-w-full">
       <h2 className="text-center text-3xl mb-4">{location}</h2>
       <span className="text-5xl text-center mb-4">
         {convertKelvinToCelsius(data?.main.temp ?? 0)}°C

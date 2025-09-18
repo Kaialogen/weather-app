@@ -21,10 +21,10 @@ export default function Searchbar(props: Props) {
         type="text"
         value={props.value}
         onChange={props.onChange}
-        placeholder="Location"
-        className="px-4 py-2 w-[230px] border border-gray-300 rounded-l-md focus:outline-none focus:border-blue-500 h-full"
+        placeholder="Search for a place"
+        className="px-4 py-2 w-[230px] rounded-xl bg-[#272541] focus:outline-none focus:border-white focus:border h-full mr-4 ml-2"
       />
-      <button className="px-4 py-[9px] bg-blue-500 text-white rounded-r-md focus:outline-none hover:bg-blue-600 h-full">
+      <button className="px-4 py-[9px] bg-[#4455da] text-white rounded-xl focus:outline-none hover:bg-blue-600 h-full cursor-pointer">
         <IoSearch />
       </button>
     </form>

@@ -82,17 +82,17 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="shadow-sm sticky top-0 left-0 z-50 bg-white">
+    <nav className="shadow-sm sticky top-0 left-0 z-50">
       <div className="h-[80px] w-full flex justify-between items-center max-w-7xl px-3 mx-auto">
         <span className="flex items-center justify-center gap-2">
-          <h2 className="text-gray-500 text-3xl">Weather Checker</h2>
+          <h2 className="text-3xl font-bold">Weather Checker</h2>
           <MdWbSunny className="text-3xl mt-1 text-yellow-300" />
         </span>
         <section className="flex gap-2 items-center">
           <MdMyLocation
             title="Your Current Location"
             onClick={handleCurrentLocation}
-            className="text-2xl text-gray-400 hover:opacity-80 cursor-pointer"
+            className="text-2xl hover:opacity-80 cursor-pointer"
           />
           <div className="relative">
             <Searchbar

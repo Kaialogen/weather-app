@@ -7,7 +7,7 @@ export default function Container(
     <div
       {...props}
       className={cn(
-        "w-full bg-white border rounded-xl flex py-4 shadow-sm",
+        "w-full bg-[#272541] border border-[#3d3b5e] rounded-xl flex py-4 shadow-sm",
         props.className
       )}
     />

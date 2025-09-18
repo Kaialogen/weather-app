@@ -51,7 +51,7 @@ export default function Home() {
     );
 
   return (
-    <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
+    <div className="flex flex-col gap-4 min-h-screen">
       <Navbar />
       <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb-10 pt-4">
         {loadingCity ? (
@@ -107,7 +107,7 @@ export default function Home() {
                   />
                 </Container>
                 {/* right container */}
-                <Container className="bg-yellow-300/80 px-6 gap-4 justify-between overflow-x-auto">
+                <Container className="bg-[#272541] px-6 gap-4 justify-between overflow-x-auto">
                   <WeatherDetails
                     humidity={`${firstData?.main.humidity}%`}
                     windSpeed={convertWindSpeed(firstData?.wind.speed ?? 0)}
