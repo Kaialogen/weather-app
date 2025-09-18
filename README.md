@@ -27,6 +27,8 @@ The app also displays detailed weather insights, including a 3-day forecast and 
 
 # Gallery
 
+![Main Page](./Images/Mainpage.png)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
